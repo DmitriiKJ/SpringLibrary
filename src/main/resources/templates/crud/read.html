@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Read</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+        }
+        th {
+            background: #007bff;
+            color: white;
+            text-transform: uppercase;
+        }
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        tr:hover {
+            background: #e2e6ea;
+        }
+        td {
+            border-bottom: 1px solid #ddd;
+        }
+        button {
+            border-radius: 5px;
+            min-width: 100px;
+            width: auto;
+            height: 30px;
+            margin: 5px;
+            color: white;
+            border: none;
+            font-size: 18px;
+            padding: 5px;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+        .danger {
+            background-color: red;
+        }
+        .warning {
+            background-color: darkorange;
+        }
+        .accept {
+            background-color: limegreen;
+        }
+        /* Поля ввода */
+        form input {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        form input:focus {
+            border: 1px solid #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Read</h1>
+    <hr>
+    <form action="/books/read/author" method="GET">
+        <input type="text" name="authorName">
+        <button class="accept">Find books by author</button>
+    </form>
+    <hr>
+    <form action="/books/read" method="GET">
+        <button class="accept">Read all books</button>
+    </form>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.getId()}"></td>
+                <td th:text="${book.getTitle()}"></td>
+                <td th:text="${book.getAuthor()}"></td>
+                <td th:text="${book.getYear()}"></td>
+                <td>
+                    <form action="/books/update">
+                        <input type="hidden" name="id" th:value="${book.getId()}">
+                        <button class="warning">Update</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/books/delete">
+                        <input type="hidden" name="id" th:value="${book.getId()}">
+                        <button class="danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="/books/create">
+        <button class="accept">Add new book</button>
+    </form>
+</body>
+</html>
