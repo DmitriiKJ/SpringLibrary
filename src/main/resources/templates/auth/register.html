@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<style>
+    /* Общий стиль для всего документа */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    /* Стили формы */
+    form {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px 30px;
+        width: 100%;
+        max-width: 400px;
+        box-sizing: border-box;
+    }
+
+    /* Заголовок формы */
+    form h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #333;
+    }
+
+    /* Стили для контейнера поля */
+    form div {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+
+    /* Метки */
+    form label {
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    /* Поля ввода */
+    form input {
+        font-size: 16px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        transition: border 0.3s;
+    }
+
+    form input:focus {
+        border: 1px solid #007BFF;
+    }
+
+    /* Кнопка */
+    form button {
+        font-size: 16px;
+        padding: 10px 15px;
+        color: #fff;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+
+    form button:hover {
+        background-color: #0056b3;
+    }
+
+    .hide{
+        display: none;
+    }
+
+</style>
+<body>
+    <form onsubmit="login(event)">
+        <h1>Register</h1>
+        <div>
+            <label>Username</label>
+            <input name="username" id="username">
+        </div>
+        <div>
+            <label>Password</label>
+            <input name="password" id="password">
+        </div>
+        <button>Login</button>
+    </form>
+
+    <form class="hide" action="/books/read" id="form"></form>
+
+<script>
+    function login(e){
+        e.preventDefault()
+        fetch("http://localhost:8080/auth/register", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: 0,
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("Login successful");
+                    document.getElementById("form").submit()
+                } else {
+                    console.error("Login failed:", data.message);
+                }
+            })
+    }
+</script>
+</body>
+</html>
